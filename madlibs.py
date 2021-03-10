@@ -25,7 +25,10 @@ def start_here():
 def say_hello():
     """Say hello to user."""
 
-    return render_template("hello.html")
+    send = render_template("hello.html")
+
+    print(send)
+    return send
 
 
 @app.route('/greet')
@@ -38,8 +41,36 @@ def greet_person():
 
     return render_template("compliment.html",
                            person=player,
-                           compliment=compliment)
+                           compliment=compliment
+                           )
 
+@app.route('/game')
+def show_madlib_form():
+
+    play_game = request.args.get("play")
+    
+
+    if play_game == "yes":
+        return render_template("game.html")
+    else:
+        return render_template("goodbye.html", person=player)  
+
+
+@app.route('/madlib')
+def show_madlib():
+    """Show resulting mablib."""
+
+    name = request.args.get("person")
+    color = request.args.get("color")
+    noun = request.args.get("noun")
+    adjective = request.args.get("adjective")
+
+    return render_template("madlib.html",
+                           person=name,
+                           color=color,
+                           noun=noun,
+                           adjective=adjective,
+                           )
 
 if __name__ == '__main__':
     # Setting debug=True gives us error messages in the browser and also
